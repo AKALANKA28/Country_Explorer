@@ -15,7 +15,7 @@ function App() {
   return (
     <AuthProvider>
       <CountryProvider>
-        {/* <Layout>
+        <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/country/:code" element={<DetailPage />} />
@@ -31,7 +31,7 @@ function App() {
             />
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </Layout> */}
+        </Layout>
       </CountryProvider>
     </AuthProvider>
   );
