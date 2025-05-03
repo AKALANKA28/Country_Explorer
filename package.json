@@ -4,14 +4,10 @@
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^13.5.0",
     "leaflet": "^1.9.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-leaflet": "^5.0.0",
-    "react-router-dom": "^7.5.3",
     "react-scripts": "5.0.1",
     "recharts": "^2.15.3",
     "web-vitals": "^2.1.4"
@@ -20,6 +16,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:coverage": "react-scripts test --coverage --watchAll=false",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -41,6 +38,32 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "jest": "^27.5.1",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-mock": "^29.7.0",
+    "msw": "^2.7.5",
+    "react-router-dom": "^7.5.3",
     "tailwindcss": "^3.4.17"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|svg)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less|scss|sass)$": "<rootDir>/__mocks__/styleMock.js"
+    },
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!src/index.js",
+      "!src/setupTests.js",
+      "!src/reportWebVitals.js"
+    ],
+    "watchPathIgnorePatterns": [
+      "node_modules"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-leaflet|@react-leaflet|leaflet)/)"
+    ]
   }
 }
