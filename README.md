@@ -4,7 +4,7 @@ A React application that allows users to explore countries around the world usin
 
 ## Live Demo
 
-[View the Live Demo](https://country-explorer-demo.netlify.app/)
+[View the Live Demo](https://country-explorer-delta.vercel.app/)
 
 ## Features
 
