@@ -1,83 +1,39 @@
 // Setup file for Jest
-import "@testing-library/jest-dom";
-import React from "react";
-
-jest.mock('react-router-dom', () => ({
-    Link: ({ to, children, className }) => (
-      <a href={to} className={className} data-testid="mock-link">
-        {children}
-      </a>
-    ),
-    BrowserRouter: ({ children }) => <div data-testid="browser-router">{children}</div>,
-    useParams: () => ({ code: 'USA' }),
-    useNavigate: () => jest.fn(),
-    useLocation: () => ({ pathname: '/' }),
-    Route: ({ path, element }) => <div data-path={path}>{element}</div>,
-    Routes: ({ children }) => <div data-testid="routes">{children}</div>,
-    MemoryRouter: ({ children, initialEntries }) => (
-      <div data-testid="memory-router" data-initial-entries={JSON.stringify(initialEntries)}>
-        {children}
-      </div>
-    )
-  }));
-  
-  jest.mock('./services/auth', () => ({
-    createUserWithEmailAndPassword: jest.fn(),
-    signInWithEmailAndPassword: jest.fn(),
-    signOut: jest.fn(),
-    onAuthStateChanged: jest.fn(),
-    getCurrentUser: jest.fn()
-  }), { virtual: true });
-  
-
-  jest.mock('./utils/helpers', () => ({
-    formatNumber: (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-    debounce: (fn, delay) => (...args) => {
-      let timer;
-      clearTimeout(timer);
-      timer = setTimeout(() => fn(...args), delay);
-      return timer;
-    },
-    formatDate: (date) => new Date(date).toLocaleDateString()
-  }), { virtual: true });
+import '@testing-library/jest-dom';
+import React from 'react';
 
 
-jest.mock("leaflet", () => ({
+// Mock for Leaflet since it uses browser-specific features
+jest.mock('leaflet', () => ({
   map: jest.fn(() => ({
     setView: jest.fn(),
     remove: jest.fn(),
-    invalidateSize: jest.fn(),
+    invalidateSize: jest.fn()
   })),
-  MapContainer: ({ children }) => (
-    <div data-testid="map-container">{children}</div>
-  ),
-
   tileLayer: jest.fn(() => ({
-    addTo: jest.fn(),
+    addTo: jest.fn()
   })),
   marker: jest.fn(() => ({
     addTo: jest.fn(),
-    bindTooltip: jest.fn(),
+    bindTooltip: jest.fn()
   })),
   divIcon: jest.fn(),
   circle: jest.fn(() => ({
-    addTo: jest.fn(),
+    addTo: jest.fn()
   })),
   Icon: {
     Default: {
       mergeOptions: jest.fn(),
       prototype: {
-        _getIconUrl: jest.fn(),
-      },
-    },
-  },
+        _getIconUrl: jest.fn()
+      }
+    }
+  }
 }));
 
 // Mock for Recharts
-jest.mock("recharts", () => ({
-  ResponsiveContainer: ({ children }) => (
-    <div data-testid="responsive-container">{children}</div>
-  ),
+jest.mock('recharts', () => ({
+  ResponsiveContainer: ({ children }) => <div data-testid="responsive-container">{children}</div>,
   BarChart: ({ children }) => <div data-testid="bar-chart">{children}</div>,
   Bar: ({ children }) => <div data-testid="bar">{children}</div>,
   PieChart: ({ children }) => <div data-testid="pie-chart">{children}</div>,
@@ -87,7 +43,7 @@ jest.mock("recharts", () => ({
   XAxis: () => <div data-testid="x-axis" />,
   YAxis: () => <div data-testid="y-axis" />,
   Tooltip: () => <div data-testid="tooltip" />,
-  Legend: () => <div data-testid="legend" />,
+  Legend: () => <div data-testid="legend" />
 }));
 
 // Mock IntersectionObserver for tests
@@ -117,18 +73,18 @@ const localStorageMock = (() => {
     }),
     clear: jest.fn(() => {
       store = {};
-    }),
+    })
   };
 })();
 
-Object.defineProperty(window, "localStorage", {
-  value: localStorageMock,
+Object.defineProperty(window, 'localStorage', {
+  value: localStorageMock
 });
 
 // Mock matchMedia
-Object.defineProperty(window, "matchMedia", {
+Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: jest.fn().mockImplementation((query) => ({
+  value: jest.fn().mockImplementation(query => ({
     matches: false,
     media: query,
     onchange: null,

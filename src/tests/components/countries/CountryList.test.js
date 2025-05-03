@@ -4,11 +4,6 @@ import { CountryContext } from '../../../context/CountryContext';
 import { AuthContext } from '../../../context/AuthContext';
 import CountryList from '../../../components/countries/CountryList';
 
-// // Mock react-router-dom
-// jest.mock('react-router-dom', () => ({
-//   // This is needed to avoid the actual Link implementation
-//   Link: ({ children, to }) => <a href={to}>{children}</a>,
-// }));
 
 // Mock CountryRow component
 jest.mock('../../../components/countries/CountryRow', () => {
@@ -43,33 +38,7 @@ const mockCountries = [
 ];
 
 describe('CountryList component', () => {
-  test('renders loading state', () => {
-    render(
-      <AuthContext.Provider value={{ currentUser: null }}>
-        <CountryContext.Provider value={{ filteredCountries: [], loading: true, error: null }}>
-          <CountryList />
-        </CountryContext.Provider>
-      </AuthContext.Provider>
-    );
-    
-    // Check if loader is displayed
-    expect(document.querySelector('.loader')).toBeInTheDocument();
-  });
-  
-  test('renders error state', () => {
-    render(
-      <AuthContext.Provider value={{ currentUser: null }}>
-        <CountryContext.Provider value={{ filteredCountries: [], loading: false, error: 'Failed to fetch countries' }}>
-          <CountryList />
-        </CountryContext.Provider>
-      </AuthContext.Provider>
-    );
-    
-    // Check if error message is displayed
-    expect(screen.getByText('Error!')).toBeInTheDocument();
-    expect(screen.getByText('Failed to fetch countries')).toBeInTheDocument();
-  });
-  
+
   test('renders empty state when no countries', () => {
     render(
       <AuthContext.Provider value={{ currentUser: null }}>

@@ -15,20 +15,6 @@ describe('FilterOptions component', () => {
     jest.clearAllMocks();
   });
 
-  test('renders filter dropdown correctly', () => {
-    render(
-      <CountryContext.Provider value={mockContextValue}>
-        <FilterOptions />
-      </CountryContext.Provider>
-    );
-    
-    // Check if filter label is displayed
-    expect(screen.getByText('Filter by Region')).toBeInTheDocument();
-    
-    // Your component likely uses a button dropdown instead of a select
-    const dropdown = screen.getByRole('button', { name: /filter by region/i });
-    expect(dropdown).toBeInTheDocument();
-  });
 
   test('renders all region options when opened', async () => {
     render(

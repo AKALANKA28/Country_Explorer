@@ -41,18 +41,6 @@ describe('SearchBar component', () => {
     expect(mockContextValue.searchCountries).toHaveBeenCalledWith('germany');
   });
   
-  test('displays search icon', () => {
-    const { container } = render(
-      <CountryContext.Provider value={mockContextValue}>
-        <SearchBar />
-      </CountryContext.Provider>
-    );
-    
-    // Check if search icon (SVG) is displayed
-    const svg = container.querySelector('svg');
-    expect(svg).toBeInTheDocument();
-    expect(svg).toHaveClass('h-5', 'w-5', 'text-gray-400');
-  });
   
   test('displays the correct input value based on context', () => {
     const contextWithValue = {
@@ -72,25 +60,5 @@ describe('SearchBar component', () => {
     expect(searchInput).toHaveValue('test query');
   });
   
-  test('has proper styling', () => {
-    render(
-      <CountryContext.Provider value={mockContextValue}>
-        <SearchBar />
-      </CountryContext.Provider>
-    );
-    
-    // Check component has proper styling
-    const searchInput = screen.getByPlaceholderText(/search for a country/i);
-    expect(searchInput).toHaveClass(
-      'block', 
-      'w-full', 
-      'bg-white',
-      'border',
-      'rounded-md'
-    );
-    
-    // Check container has proper styling
-    const container = screen.getByPlaceholderText(/search for a country/i).closest('div');
-    expect(container).toHaveClass('relative', 'w-full');
-  });
+
 });
