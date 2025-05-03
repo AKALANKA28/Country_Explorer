@@ -1,8 +1,8 @@
 import React, { useContext, useMemo } from 'react';
 import { CountryContext } from '../../context/CountryContext';
-import CountryRow from './CountryRow'; // Make sure this import is correct
+import CountryCard from './CountryCard';
 
-const CountryList = () => {
+const CountryGrid = () => {
   const { filteredCountries, loading, error } = useContext(CountryContext);
   
   // Sort countries by name in ascending order
@@ -16,7 +16,7 @@ const CountryList = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen-content">
-        <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32" 
+        <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32"
              style={{ borderTopColor: '#38B2AC' }}></div>
       </div>
     );
@@ -41,25 +41,12 @@ const CountryList = () => {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow overflow-hidden">
-      {/* Table header */}
-      <div className="bg-gray-50 border-b border-gray-200 bg-white py-4 px-6 flex items-center font-medium text-gray-600">
-        <div className="w-12"></div> {/* Flag column */}
-        <div className="flex-1 min-w-[120px]">Country</div>
-        <div className="flex-1 min-w-[120px] hidden sm:block">Capital</div>
-        <div className="flex-1 min-w-[100px] hidden md:block">Region</div>
-        <div className="flex-1 min-w-[120px] hidden lg:block">Population</div>
-        <div className="w-12"></div> {/* Favorites column */}
-      </div>
-      
-      {/* Table body */}
-      <div className="divide-y divide-gray-200">
-        {sortedCountries.map(country => (
-          <CountryRow key={country.cca3} country={country} />
-        ))}
-      </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      {sortedCountries.map(country => (
+        <CountryCard key={country.cca3} country={country} />
+      ))}
     </div>
   );
 };
 
-export default CountryList;
+export default CountryGrid;

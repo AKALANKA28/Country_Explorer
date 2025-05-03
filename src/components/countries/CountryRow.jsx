@@ -10,7 +10,7 @@ const COLORS = {
   accent: '#4A5568',   // Dark gray for text
 };
 
-const CountryCard = ({ country }) => {
+const CountryRow = ({ country }) => {
   const { currentUser } = useContext(AuthContext);
   const { toggleFavorite, isFavorite } = useContext(CountryContext);
   
@@ -25,22 +25,48 @@ const CountryCard = ({ country }) => {
   };
 
   return (
-    <div className="country-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
-      <Link to={`/country/${country.cca3}`} className="block">
-        <div className="relative h-48 overflow-hidden">
+    <Link to={`/country/${country.cca3}`} className="group">
+      <div className="flex items-center py-4 px-6 hover:bg-gray-50 transition-colors duration-150">
+        {/* Flag */}
+        <div className="w-12 h-8 overflow-hidden rounded shadow flex-shrink-0">
           <img 
             src={country.flags.svg} 
             alt={`Flag of ${country.name.common}`}
             className="w-full h-full object-cover"
           />
+        </div>
+        
+        {/* Country Name */}
+        <div className="flex-1 min-w-[120px] font-medium text-gray-800 ml-4">
+          {country.name.common}
+        </div>
+        
+        {/* Capital */}
+        <div className="flex-1 min-w-[120px] text-gray-600 hidden sm:block">
+          {country.capital ? country.capital.join(', ') : 'N/A'}
+        </div>
+        
+        {/* Region */}
+        <div className="flex-1 min-w-[100px] text-gray-600 hidden md:block">
+          {country.region}
+        </div>
+        
+        {/* Population */}
+        <div className="flex-1 min-w-[120px] text-gray-600 hidden lg:block">
+          {formatPopulation(country.population)}
+        </div>
+        
+        {/* Favorite button */}
+        <div className="w-12 flex items-center justify-end">
           {currentUser && (
             <button
               onClick={handleFavoriteClick}
-              className="absolute top-2 right-2 p-2 bg-white bg-opacity-70 rounded-full hover:bg-opacity-100 transition-all duration-200"
+              className="p-2 rounded-full hover:bg-gray-200 transition-colors duration-200"
+              aria-label={isFavorite(country.cca3) ? "Remove from favorites" : "Add to favorites"}
             >
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
-                className="h-6 w-6" 
+                className="h-5 w-5" 
                 fill={isFavorite(country.cca3) ? "currentColor" : "none"} 
                 viewBox="0 0 24 24" 
                 stroke="currentColor"
@@ -56,23 +82,9 @@ const CountryCard = ({ country }) => {
             </button>
           )}
         </div>
-        <div className="p-5">
-          <h2 className="text-xl font-bold text-gray-800 mb-2">{country.name.common}</h2>
-          <div className="space-y-1 text-gray-700">
-            <p className="flex items-center">
-              <span className="font-semibold mr-2">Population:</span> {formatPopulation(country.population)}
-            </p>
-            <p className="flex items-center">
-              <span className="font-semibold mr-2">Region:</span> {country.region}
-            </p>
-            <p className="flex items-center">
-              <span className="font-semibold mr-2">Capital:</span> {country.capital ? country.capital.join(', ') : 'N/A'}
-            </p>
-          </div>
-        </div>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 };
 
-export default CountryCard;
+export default CountryRow;
