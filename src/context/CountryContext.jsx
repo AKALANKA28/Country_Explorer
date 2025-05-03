@@ -132,6 +132,7 @@ export const CountryProvider = ({ children }) => {
     setFilteredCountries(countries);
   };
 
+  
   const getFavoriteCountries = () => {
     return countries.filter(country => favorites.includes(country.cca3));
   };

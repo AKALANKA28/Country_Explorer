@@ -65,7 +65,7 @@ const FilterOptions = () => {
         </div>
       )}
       
-      {selectedRegion && (
+      {/* {selectedRegion && (
         <button
           onClick={() => {
             resetFilters();
@@ -78,7 +78,7 @@ const FilterOptions = () => {
           </svg>
           Clear
         </button>
-      )}
+      )} */}
     </div>
   );
 };

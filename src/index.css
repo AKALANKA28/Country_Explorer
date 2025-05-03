@@ -43,3 +43,85 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+
+/* Custom tooltip styles for Leaflet map */
+/* Custom tooltip styles for Leaflet map with new color scheme */
+.custom-tooltip {
+  background-color: white;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  padding: 0;
+}
+
+.custom-tooltip .leaflet-tooltip-content {
+  padding: 0;
+}
+
+.country-tooltip {
+  padding: 8px 10px;
+  min-width: 160px;
+}
+
+/* Custom marker styles */
+.custom-marker-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.custom-marker-icon:hover {
+  transform: scale(1.2);
+  filter: brightness(1.1);
+}
+
+/* Loader animation */
+.loader {
+  border-top-color: #38B2AC;
+  -webkit-animation: spinner 1s linear infinite;
+  animation: spinner 1s linear infinite;
+}
+
+@-webkit-keyframes spinner {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+.custom-marker-icon div {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.custom-marker-icon div:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 6px rgba(0,0,0,0.5);
+}
+
+/* Button transitions */
+button {
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/* Active view indicator */
+.view-toggle-active {
+  position: relative;
+}
+
+.view-toggle-active:after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 3px;
+  background-color: currentColor;
+  border-radius: 3px;
+}
