@@ -714,7 +714,7 @@ const CountryDetail = () => {
                       <PieChart>
                         <Pie
                           data={getLanguageData()}
-                          cx="50%"
+                          cx="62%"
                           cy="50%"
                           labelLine={true}
                           label={({ name }) => name}
