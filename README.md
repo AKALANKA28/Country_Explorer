@@ -123,13 +123,11 @@ The application is fully responsive and works well on:
 
 ## Development Challenges and Solutions
 
-### Challenge 1: API Rate Limiting
-While developing, I encountered API rate limiting issues with the REST Countries API. To solve this, I implemented caching of API responses to reduce the number of requests.
 
-### Challenge 2: State Management
+### Challenge 1: State Management
 Managing application state across multiple components was challenging. I solved this by using React Context API to create a centralized state that all components can access.
 
-### Challenge 3: Performance Optimization
+### Challenge 2: Performance Optimization
 Loading all countries at once caused performance issues. I optimized this by implementing lazy loading and efficient filtering mechanisms.
 
 ## Future Improvements
