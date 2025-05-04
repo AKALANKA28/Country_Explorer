@@ -79,7 +79,7 @@ The application features interactive maps powered by Leaflet.js:
 
 ```
 src/
-├── __tests__/               # Test files
+├── __tests__/           # Test files
 ├── components/
 │   ├── layout/          # Layout components (Navbar, Footer, etc.)
 │   ├── countries/       # Country-related components
