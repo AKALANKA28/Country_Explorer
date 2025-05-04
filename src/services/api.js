@@ -59,3 +59,18 @@ export const fetchCountryByCode = async (code) => {
     throw error;
   }
 };
+
+// Fetch countries by language (Endpoint 5)
+export const fetchCountriesByLanguage = async (language) => {
+  try {
+    const response = await fetch(`${BASE_URL}/lang/${language}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(`Error fetching countries by language (${language}):`, error);
+    throw error;
+  }
+};

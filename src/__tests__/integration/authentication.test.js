@@ -2,15 +2,10 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import App from '../../App';
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  signOut, 
-  onAuthStateChanged 
-} from '../../services/auth';
+import * as authService from '../../services/authService';
 
-// Mock Firebase auth
-jest.mock('../../services/auth');
+// Mock authentication service
+jest.mock('../../services/authService');
 
 // Mock API service
 jest.mock('../../services/api', () => ({
@@ -31,31 +26,17 @@ describe('Authentication Integration', () => {
     // Reset mocks
     jest.clearAllMocks();
     
-    // Mock auth state listener
-    let authCallback = null;
-    onAuthStateChanged.mockImplementation((auth, callback) => {
-      authCallback = callback;
-      callback(null); // Start with not logged in
-      return jest.fn(); // Unsubscribe function
-    });
-    
-    // Save authCallback for later use
-    global.authCallback = authCallback;
+    // Clear any stored auth state
+    localStorage.clear();
   });
 
   test('user can register, login, and logout', async () => {
     // Mock successful registration
-    createUserWithEmailAndPassword.mockResolvedValueOnce({
-      user: { uid: 'new-user', email: 'new@example.com' }
-    });
+    const mockUser = { id: '123', email: 'new@example.com', name: 'new' };
+    authService.registerUser.mockResolvedValueOnce(mockUser);
     
     // Mock successful login
-    signInWithEmailAndPassword.mockResolvedValueOnce({
-      user: { uid: 'new-user', email: 'new@example.com' }
-    });
-    
-    // Mock successful logout
-    signOut.mockResolvedValueOnce();
+    authService.loginUser.mockResolvedValueOnce(mockUser);
     
     render(
       <BrowserRouter>
@@ -83,15 +64,14 @@ describe('Authentication Integration', () => {
     fireEvent.change(screen.getByLabelText(/password/i), {
       target: { value: 'password123' }
     });
+
+    // If your register form has a name field, add this:
+    fireEvent.change(screen.getByLabelText(/name/i), {
+      target: { value: 'Test User' }
+    });
     
     // Submit registration form
     fireEvent.click(screen.getByRole('button', { name: /register/i }));
-    
-    // Wait for registration to complete and auth state to update
-    await waitFor(() => {
-      // Simulate auth state change
-      global.authCallback({ uid: 'new-user', email: 'new@example.com' });
-    });
     
     // Should be redirected to home page and logged in
     await waitFor(() => {
@@ -100,12 +80,6 @@ describe('Authentication Integration', () => {
     
     // Log out
     fireEvent.click(screen.getByText('Log Out'));
-    
-    // Wait for logout to complete
-    await waitFor(() => {
-      // Simulate auth state change
-      global.authCallback(null);
-    });
     
     // Should be logged out
     await waitFor(() => {
@@ -131,12 +105,6 @@ describe('Authentication Integration', () => {
     // Submit login form
     fireEvent.click(screen.getByRole('button', { name: /log in/i }));
     
-    // Wait for login to complete and auth state to update
-    await waitFor(() => {
-      // Simulate auth state change
-      global.authCallback({ uid: 'new-user', email: 'new@example.com' });
-    });
-    
     // Should be redirected to home page and logged in
     await waitFor(() => {
       expect(screen.getByText('Log Out')).toBeInTheDocument();
@@ -145,10 +113,7 @@ describe('Authentication Integration', () => {
 
   test('displays error messages for authentication failures', async () => {
     // Mock failed login
-    signInWithEmailAndPassword.mockRejectedValueOnce({
-      code: 'auth/wrong-password',
-      message: 'Invalid email or password'
-    });
+    authService.loginUser.mockRejectedValueOnce(new Error('Invalid email or password'));
     
     render(
       <BrowserRouter>

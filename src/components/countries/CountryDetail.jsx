@@ -20,22 +20,22 @@ import {
 
 // Color scheme
 const COLORS = {
-  primary: "#38B2AC", // Teal
+  primary: "#006A71", // Teal
   favorite: "#805AD5", // Purple
   accent: "#4A5568", // Dark gray
-  secondary: "#ED8936", // Orange
-  tertiary: "#4299E1", // Blue
-  quaternary: "#48BB78", // Green
+  secondary: "#6A9C89", // Orange
+  tertiary: "#48A6A7", // Blue
+  quaternary: "#C1D8C3", // Green
   light: "#F7FAFC", // Very light gray
   border: "#E2E8F0", // Light gray
 };
 
 // Chart colors
 const CHART_COLORS = [
-  "#38B2AC",
-  "#805AD5",
-  "#ED8936",
-  "#4299E1",
+  "#205781",
+  "#4F959D",
+  "#98D2C0",
+  "#6A9C89",
   "#48BB78",
   "#F6AD55",
 ];
@@ -189,7 +189,6 @@ const CountryDetail = () => {
 
   return (
     <div className="bg-white shadow-lg rounded-lg overflow-hidden my-6">
-      {/* Header with flag and name */}
       <div className="relative">
         <div className="h-64 overflow-hidden bg-gray-100">
           {/* Full-width background with semi-transparent overlay */}
@@ -205,6 +204,28 @@ const CountryDetail = () => {
 
           {/* Gradient overlay for better text readability */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-20"></div>
+
+          {/* Back button positioned inside the banner at the top */}
+          <div className="absolute top-4 left-4 z-30">
+            <Link
+              to="/"
+              className="inline-flex items-center px-4 py-2 bg-black/30 hover:bg-black/40 border border-transparent text-sm font-medium rounded-md text-white backdrop-blur-sm transition-all duration-200 focus:outline-none"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 mr-2"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              Back to Countries
+            </Link>
+          </div>
         </div>
 
         <div className="absolute bottom-0 left-0 p-6 flex justify-between items-end w-full z-30">
@@ -556,157 +577,219 @@ const CountryDetail = () => {
 
         {/* Statistics Tab */}
         {activeTab === "statistics" && (
-          <div className="space-y-10">
-            <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-6">
-                Population Comparison
-              </h3>
-              <div className="h-80 w-full">
-                {getPopulationChartData().length > 0 ? (
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                      data={getPopulationChartData()}
-                      margin={{
-                        top: 20,
-                        right: 30,
-                        left: 20,
-                        bottom: 60,
-                      }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                      <XAxis
-                        dataKey="name"
-                        angle={-45}
-                        textAnchor="end"
-                        height={70}
-                        tick={{ fontSize: 12 }}
-                      />
-                      <YAxis
-                        tickFormatter={formatLargeNumber}
-                        tick={{ fontSize: 12 }}
-                      />
-                      <Tooltip content={<CustomTooltip />} />
-                      <Legend />
-                      <Bar
-                        dataKey="value"
-                        name="Population"
-                        fill={COLORS.primary}
-                        radius={[4, 4, 0, 0]}
-                      >
-                        {getPopulationChartData().map((entry, index) => (
-                          <Cell
-                            key={`cell-${index}`}
-                            fill={
-                              entry.name === country.name.common
-                                ? COLORS.primary
-                                : COLORS.tertiary
-                            }
-                          />
-                        ))}
-                      </Bar>
-                    </BarChart>
-                  </ResponsiveContainer>
-                ) : (
-                  <div className="h-full flex items-center justify-center bg-gray-50 rounded-lg">
-                    <p className="text-gray-500">
-                      No border countries to compare
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-6">
-                Area Comparison (km²)
-              </h3>
-              <div className="h-80 w-full">
-                {getAreaChartData().length > 0 ? (
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                      data={getAreaChartData()}
-                      margin={{
-                        top: 20,
-                        right: 30,
-                        left: 20,
-                        bottom: 60,
-                      }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                      <XAxis
-                        dataKey="name"
-                        angle={-45}
-                        textAnchor="end"
-                        height={70}
-                        tick={{ fontSize: 12 }}
-                      />
-                      <YAxis
-                        tickFormatter={formatLargeNumber}
-                        tick={{ fontSize: 12 }}
-                      />
-                      <Tooltip content={<CustomTooltip />} />
-                      <Legend />
-                      <Bar
-                        dataKey="value"
-                        name="Area (km²)"
-                        fill={COLORS.secondary}
-                        radius={[4, 4, 0, 0]}
-                      >
-                        {getAreaChartData().map((entry, index) => (
-                          <Cell
-                            key={`cell-${index}`}
-                            fill={
-                              entry.name === country.name.common
-                                ? COLORS.secondary
-                                : COLORS.quaternary
-                            }
-                          />
-                        ))}
-                      </Bar>
-                    </BarChart>
-                  </ResponsiveContainer>
-                ) : (
-                  <div className="h-full flex items-center justify-center bg-gray-50 rounded-lg">
-                    <p className="text-gray-500">
-                      No border countries to compare
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {country.languages && Object.keys(country.languages).length > 0 && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Left Column: Population and Area Comparison Charts */}
+            <div className="space-y-10">
+              {/* Population Comparison Chart */}
               <div>
                 <h3 className="text-lg font-medium text-gray-900 mb-6">
-                  Languages
+                  Population Comparison
                 </h3>
                 <div className="h-80 w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={getLanguageData()}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={true}
-                        label={({ name }) => name}
-                        outerRadius={80}
-                        fill={COLORS.primary}
-                        dataKey="value"
+                  {getPopulationChartData().length > 0 ? (
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart
+                        data={getPopulationChartData()}
+                        margin={{
+                          top: 20,
+                          right: 30,
+                          left: 20,
+                          bottom: 60,
+                        }}
                       >
-                        {getLanguageData().map((entry, index) => (
-                          <Cell
-                            key={`cell-${index}`}
-                            fill={CHART_COLORS[index % CHART_COLORS.length]}
-                          />
-                        ))}
-                      </Pie>
-                      <Tooltip />
-                      <Legend />
-                    </PieChart>
-                  </ResponsiveContainer>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                        <XAxis
+                          dataKey="name"
+                          angle={-45}
+                          textAnchor="end"
+                          height={70}
+                          tick={{ fontSize: 12 }}
+                        />
+                        <YAxis
+                          tickFormatter={formatLargeNumber}
+                          tick={{ fontSize: 12 }}
+                        />
+                        <Tooltip content={<CustomTooltip />} />
+                        <Legend />
+                        <Bar
+                          dataKey="value"
+                          name="Population"
+                          fill={COLORS.primary}
+                          radius={[4, 4, 0, 0]}
+                        >
+                          {getPopulationChartData().map((entry, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={
+                                entry.name === country.name.common
+                                  ? COLORS.primary
+                                  : COLORS.tertiary
+                              }
+                            />
+                          ))}
+                        </Bar>
+                      </BarChart>
+                    </ResponsiveContainer>
+                  ) : (
+                    <div className="h-full flex items-center justify-center bg-gray-50 rounded-lg">
+                      <p className="text-gray-500">
+                        No border countries to compare
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
-            )}
+
+              {/* Area Comparison Chart */}
+              <div>
+                <h3 className="text-lg font-medium text-gray-900 mb-6">
+                  Area Comparison (km²)
+                </h3>
+                <div className="h-80 w-full">
+                  {getAreaChartData().length > 0 ? (
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart
+                        data={getAreaChartData()}
+                        margin={{
+                          top: 20,
+                          right: 30,
+                          left: 20,
+                          bottom: 60,
+                        }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                        <XAxis
+                          dataKey="name"
+                          angle={-45}
+                          textAnchor="end"
+                          height={70}
+                          tick={{ fontSize: 12 }}
+                        />
+                        <YAxis
+                          tickFormatter={formatLargeNumber}
+                          tick={{ fontSize: 12 }}
+                        />
+                        <Tooltip content={<CustomTooltip />} />
+                        <Legend />
+                        <Bar
+                          dataKey="value"
+                          name="Area (km²)"
+                          fill={COLORS.secondary}
+                          radius={[4, 4, 0, 0]}
+                        >
+                          {getAreaChartData().map((entry, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={
+                                entry.name === country.name.common
+                                  ? COLORS.secondary
+                                  : COLORS.quaternary
+                              }
+                            />
+                          ))}
+                        </Bar>
+                      </BarChart>
+                    </ResponsiveContainer>
+                  ) : (
+                    <div className="h-full flex items-center justify-center bg-gray-50 rounded-lg">
+                      <p className="text-gray-500">
+                        No border countries to compare
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Languages Pie Chart */}
+            <div>
+              {country.languages &&
+              Object.keys(country.languages).length > 0 ? (
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-6">
+                    Languages
+                  </h3>
+                  <div className="h-96 w-full bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={getLanguageData()}
+                          cx="50%"
+                          cy="50%"
+                          labelLine={true}
+                          label={({ name }) => name}
+                          outerRadius={140} 
+                          innerRadius={6}
+                          fill={COLORS.primary}
+                          dataKey="value"
+                        >
+                          {getLanguageData().map((entry, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={CHART_COLORS[index % CHART_COLORS.length]}
+                            />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend
+                          layout="vertical"
+                          verticalAlign="middle"
+                          align="right"
+                          wrapperStyle={{ paddingLeft: "20px" }}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+
+                  {/* Additional language info below chart */}
+                  <div className="mt-8 bg-gray-50 rounded-lg p-4">
+                    <h4 className="font-medium text-gray-900 mb-3">
+                      Language Information
+                    </h4>
+                    <div className="space-y-2">
+                      {Object.entries(country.languages || {}).map(
+                        ([code, name], index) => (
+                          <div
+                            key={index}
+                            className="flex justify-between items-center border-b border-gray-200 py-2 last:border-0"
+                          >
+                            <span className="text-gray-800">{name}</span>
+                            <span className="text-gray-500 text-sm uppercase">
+                              {code}
+                            </span>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="h-full flex items-center justify-center bg-gray-50 rounded-lg p-8">
+                  <div className="text-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-12 w-12 mx-auto text-gray-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1.5}
+                        d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"
+                      />
+                    </svg>
+                    <h3 className="mt-4 text-lg font-medium text-gray-900">
+                      No Language Data
+                    </h3>
+                    <p className="mt-2 text-gray-500">
+                      Language information is not available for this country.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         )}
 
@@ -781,7 +864,7 @@ const CountryDetail = () => {
       </div>
 
       {/* Footer */}
-      <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
+      {/* <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
         <Link
           to="/"
           className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
@@ -802,9 +885,8 @@ const CountryDetail = () => {
               clipRule="evenodd"
             />
           </svg>
-          Back to All Countries
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 };

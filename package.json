@@ -5,9 +5,10 @@
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "leaflet": "^1.9.4",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-leaflet": "^5.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-leaflet": "^4.2.1",
+    "react-router-dom": "^6.18.0",
     "react-scripts": "5.0.1",
     "recharts": "^2.15.3",
     "web-vitals": "^2.1.4"
@@ -47,7 +48,6 @@
     "jest-environment-jsdom": "^29.7.0",
     "jest-mock": "^29.7.0",
     "msw": "^2.7.5",
-    "react-router-dom": "^7.5.3",
     "tailwindcss": "^3.4.17"
   },
   "jest": {

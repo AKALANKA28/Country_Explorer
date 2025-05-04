@@ -38,8 +38,8 @@ const formatPopulation = (population) => {
   return population.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
-const WorldMap = () => {
-  const { countries, filteredCountries, isFavorite } = useContext(CountryContext);
+const WorldMap = ({ favoritesOnly = false }) => {
+  const { countries, filteredCountries, isFavorite, getFavoriteCountries } = useContext(CountryContext);
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -53,8 +53,13 @@ const WorldMap = () => {
     setMapLoaded(true);
   }, []);
 
+  // Determine which countries to display based on the favoritesOnly prop
+  const countriesToDisplay = favoritesOnly 
+    ? getFavoriteCountries()
+    : filteredCountries;
+
   // Filter countries that have valid coordinates
-  const countriesWithCoordinates = filteredCountries.filter(country => 
+  const countriesWithCoordinates = countriesToDisplay.filter(country => 
     country.latlng && country.latlng.length === 2
   );
 
@@ -146,14 +151,18 @@ const WorldMap = () => {
     <div className="rounded-lg shadow-lg bg-white overflow-hidden">
       <div className="p-4 border-b flex flex-col sm:flex-row justify-between items-center gap-2" 
            style={{ backgroundColor: COLORS.light, borderColor: COLORS.border }}>
-        <h2 className="font-bold text-lg" style={{ color: COLORS.accent }}>Interactive World Map</h2>
+        <h2 className="font-bold text-lg" style={{ color: COLORS.accent }}>
+          {favoritesOnly ? "Your Favorite Countries" : "Interactive World Map"}
+        </h2>
         <div className="flex flex-wrap items-center justify-center gap-4">
           <div className="flex items-center">
             <span className="w-3 h-3 rounded-full inline-block mr-1" 
-                  style={{ backgroundColor: COLORS.primary }}></span>
-            <span className="text-sm" style={{ color: COLORS.accent }}>Countries</span>
+                  style={{ backgroundColor: favoritesOnly ? COLORS.favorite : COLORS.primary }}></span>
+            <span className="text-sm" style={{ color: COLORS.accent }}>
+              {favoritesOnly ? "Favorites" : "Countries"}
+            </span>
           </div>
-          {currentUser && (
+          {!favoritesOnly && currentUser && (
             <div className="flex items-center">
               <span className="w-3 h-3 rounded-full inline-block mr-1" 
                     style={{ backgroundColor: COLORS.favorite }}></span>

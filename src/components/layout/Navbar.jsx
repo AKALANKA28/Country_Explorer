@@ -1,15 +1,21 @@
 import React, { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
 const Navbar = () => {
   const { currentUser, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
     navigate('/');
+  };
+
+  // Check if a path is active
+  const isActive = (path) => {
+    return location.pathname === path;
   };
 
   return (
@@ -38,14 +44,20 @@ const Navbar = () => {
               <div className="ml-10 flex items-baseline space-x-4">
                 <Link
                   to="/"
-                  className="text-white hover:bg-blue-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium"
+                  className={`${isActive('/') 
+                    ? 'bg-[#38B2AC] text-white' 
+                    : 'text-white hover:bg-[#38B2AC] hover:bg-opacity-75'
+                  } px-3 py-2 rounded-md text-sm font-medium`}
                 >
                   Home
                 </Link>
                 {currentUser && (
                   <Link
                     to="/favorites"
-                    className="text-white hover:bg-blue-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium"
+                    className={`${isActive('/favorites') 
+                      ? 'bg-[#38B2AC] text-white' 
+                      : 'text-white hover:bg-[#38B2AC] hover:bg-opacity-75'
+                    } px-3 py-2 rounded-md text-sm font-medium`}
                   >
                     Favorites
                   </Link>
@@ -60,7 +72,7 @@ const Navbar = () => {
                   <span className="text-white mr-4">Welcome, {currentUser.name}</span>
                   <button
                     onClick={handleLogout}
-                    className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                    className="bg-white hover:bg-red-100 text-red-600 font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
                   >
                     Logout
                   </button>
@@ -69,13 +81,19 @@ const Navbar = () => {
                 <div className="flex items-center space-x-4">
                   <Link
                     to="/login"
-                    className="bg-white text-blue-700 hover:bg-gray-100 font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                    className={`${isActive('/login') 
+                      ? 'bg-gray-100 text-[#38B2AC]' 
+                      : 'bg-white text-[#38B2AC] hover:bg-gray-100'
+                    } font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out`}
                   >
                     Login
                   </Link>
                   <Link
                     to="/register"
-                    className="bg-transparent hover:bg-blue-500 text-white font-medium hover:text-white py-2 px-4 border border-white hover:border-transparent rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                    className={`${isActive('/register') 
+                      ? 'bg-[#38B2AC] text-white border-transparent' 
+                      : 'bg-transparent text-white hover:bg-[#38B2AC] hover:text-white border border-white hover:border-transparent'
+                    } font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out`}
                   >
                     Register
                   </Link>
@@ -86,7 +104,7 @@ const Navbar = () => {
           <div className="-mr-2 flex md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="bg-blue-700 inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-blue-800 focus:ring-white"
+              className="bg-[#38B2AC] inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white hover:bg-[#2C9296] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#38B2AC] focus:ring-white"
             >
               <span className="sr-only">Open main menu</span>
               {isMenuOpen ? (
@@ -122,7 +140,10 @@ const Navbar = () => {
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <Link
               to="/"
-              className="text-white hover:bg-blue-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium"
+              className={`${isActive('/') 
+                ? 'bg-[#38B2AC] text-white' 
+                : 'text-white hover:bg-[#38B2AC] hover:bg-opacity-75'
+              } block px-3 py-2 rounded-md text-base font-medium`}
               onClick={() => setIsMenuOpen(false)}
             >
               Home
@@ -130,19 +151,22 @@ const Navbar = () => {
             {currentUser && (
               <Link
                 to="/favorites"
-                className="text-white hover:bg-blue-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium"
+                className={`${isActive('/favorites') 
+                  ? 'bg-[#38B2AC] text-white' 
+                  : 'text-white hover:bg-[#38B2AC] hover:bg-opacity-75'
+                } block px-3 py-2 rounded-md text-base font-medium`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Favorites
               </Link>
             )}
           </div>
-          <div className="pt-4 pb-3 border-t border-blue-800">
+          <div className="pt-4 pb-3 border-t border-gray-700">
             {currentUser ? (
               <div className="flex items-center px-5">
                 <div className="ml-3">
                   <div className="text-base font-medium leading-none text-white">{currentUser.name}</div>
-                  <div className="text-sm font-medium leading-none text-blue-200">{currentUser.email}</div>
+                  <div className="text-sm font-medium leading-none text-gray-300">{currentUser.email}</div>
                 </div>
                 <button
                   onClick={() => {
@@ -158,14 +182,20 @@ const Navbar = () => {
               <div className="mt-3 px-2 space-y-1">
                 <Link
                   to="/login"
-                  className="block bg-blue-800 text-white px-3 py-2 rounded-md text-base font-medium hover:bg-blue-900"
+                  className={`${isActive('/login') 
+                    ? 'bg-[#2C9296] text-white' 
+                    : 'bg-[#38B2AC] text-white hover:bg-[#2C9296]'
+                  } block px-3 py-2 rounded-md text-base font-medium`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Login
                 </Link>
                 <Link
                   to="/register"
-                  className="block bg-transparent border border-white text-white px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700"
+                  className={`${isActive('/register') 
+                    ? 'bg-[#38B2AC] border-transparent' 
+                    : 'bg-transparent border border-white hover:bg-[#38B2AC]'
+                  } block text-white px-3 py-2 rounded-md text-base font-medium`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Register

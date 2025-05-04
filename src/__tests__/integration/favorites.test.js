@@ -3,10 +3,10 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import App from '../../App';
 import { fetchAllCountries } from '../../services/api';
-import { onAuthStateChanged } from '../../services/auth';
+import { onAuthStateChanged } from '../../services/authService';
 
 // Mock auth
-jest.mock('../../services/auth', () => ({
+jest.mock('../../services/authService', () => ({
   onAuthStateChanged: jest.fn(),
   signInWithEmailAndPassword: jest.fn(),
   signOut: jest.fn()
