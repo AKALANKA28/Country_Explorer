@@ -130,6 +130,12 @@ Managing application state across multiple components was challenging. I solved 
 ### Challenge 2: Performance Optimization
 Loading all countries at once caused performance issues. I optimized this by implementing lazy loading and efficient filtering mechanisms.
 
+### Challenge 3:  Map Integration
+Integrating Leaflet.js maps with React required careful management of component lifecycles. I solved this by creating custom hooks to handle map initialization and cleanup, ensuring proper memory management and preventing map-related memory leaks.
+
+### Challenge 4:  Testing Environment Configuration
+During development, I encountered significant challenges with the Jest testing environment, particularly with JSX parsing and DOM simulation. The tests were failing with errors related to missing React configuration and document objects not being defined. To solve this, I created a proper Jest configuration that included the jsdom test environment and appropriate Babel presets for React. I also added data-testid attributes to critical components to make testing more robust and less dependent on implementation details. This improved both the reliability and maintainability of the test suite.
+
 ## Future Improvements
 
 - Implement real backend authentication
