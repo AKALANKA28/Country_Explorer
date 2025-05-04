@@ -5,6 +5,22 @@ import Home from '../../pages/Home';
 import { CountryContext } from '../../context/CountryContext';
 import { AuthContext } from '../../context/AuthContext';
 
+
+
+const originalConsoleWarn = console.warn;
+beforeAll(() => {
+  console.warn = (...args) => {
+    if (args[0] && args[0].includes && args[0].includes('React Router')) {
+      return;
+    }
+    originalConsoleWarn(...args);
+  };
+});
+
+afterAll(() => {
+  console.warn = originalConsoleWarn;
+});
+
 // Mock child components
 jest.mock('../../components/countries/SearchBar', () => () => <div data-testid="search-bar">Search Bar</div>);
 jest.mock('../../components/countries/FilterOptions', () => () => <div data-testid="filter-options">Filter Options</div>);
