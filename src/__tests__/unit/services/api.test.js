@@ -4,7 +4,7 @@ import {
   fetchCountriesByRegion,
   fetchCountryByName,
   fetchCountriesByLanguage,
-} from "../../services/api";
+} from "../../../services/api";
 
 describe("API Service", () => {
   beforeEach(() => {

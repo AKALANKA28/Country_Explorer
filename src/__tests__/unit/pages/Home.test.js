@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import Home from '../../pages/Home';
-import { CountryContext } from '../../context/CountryContext';
-import { AuthContext } from '../../context/AuthContext';
+import Home from '../../../pages/Home';
+import { CountryContext } from '../../../context/CountryContext';
+import { AuthContext } from '../../../context/AuthContext';
 
 
 
@@ -22,11 +22,11 @@ afterAll(() => {
 });
 
 // Mock child components
-jest.mock('../../components/countries/SearchBar', () => () => <div data-testid="search-bar">Search Bar</div>);
-jest.mock('../../components/countries/FilterOptions', () => () => <div data-testid="filter-options">Filter Options</div>);
-jest.mock('../../components/countries/CountryList', () => () => <div data-testid="country-list">Country List</div>);
-jest.mock('../../components/countries/CountryGrid', () => () => <div data-testid="country-grid">Country Grid</div>);
-jest.mock('../../components/countries/WorldMap', () => () => <div data-testid="world-map">World Map</div>);
+jest.mock('../../../components/countries/SearchBar', () => () => <div data-testid="search-bar">Search Bar</div>);
+jest.mock('../../../components/countries/FilterOptions', () => () => <div data-testid="filter-options">Filter Options</div>);
+jest.mock('../../../components/countries/CountryList', () => () => <div data-testid="country-list">Country List</div>);
+jest.mock('../../../components/countries/CountryGrid', () => () => <div data-testid="country-grid">Country Grid</div>);
+jest.mock('../../../components/countries/WorldMap', () => () => <div data-testid="world-map">World Map</div>);
 
 // Mock context values
 const mockContextValues = {

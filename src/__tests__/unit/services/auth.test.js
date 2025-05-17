@@ -1,4 +1,4 @@
-import { loginUser, registerUser } from '../../services/authService';
+import { loginUser, registerUser } from '../../../services/authService';
 
 // Mock localStorage for tests
 const mockLocalStorage = (() => {

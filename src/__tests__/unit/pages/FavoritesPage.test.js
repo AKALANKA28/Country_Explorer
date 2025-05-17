@@ -1,12 +1,12 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor, within, act } from '@testing-library/react';
 import { BrowserRouter, MemoryRouter, Routes, Route } from 'react-router-dom';
-import App from '../../App';
-import { CountryContext } from '../../context/CountryContext';
-import { AuthContext } from '../../context/AuthContext';
-import { fetchAllCountries, fetchCountryByCode } from '../../services/api';
-import { onAuthStateChanged } from '../../services/authService';
-import FavoritesPage from '../../pages/FavoritesPage';
+import App from '../../../App';
+import { CountryContext } from '../../../context/CountryContext';
+import { AuthContext } from '../../../context/AuthContext';
+import { fetchAllCountries, fetchCountryByCode } from '../../../services/api';
+import { onAuthStateChanged } from '../../../services/authService';
+import FavoritesPage from '../../../pages/FavoritesPage';
 
 // Suppress React Router warnings
 const originalWarn = console.warn;
@@ -32,12 +32,12 @@ afterAll(() => {
 });
 
 // Mock child components
-jest.mock('../../components/countries/WorldMap', () => ({
+jest.mock('../../../components/countries/WorldMap', () => ({
   __esModule: true,
   default: () => <div data-testid="world-map">World Map Component</div>,
 }));
 
-jest.mock('../../components/countries/CountryCard', () => ({
+jest.mock('../../../components/countries/CountryCard', () => ({
   __esModule: true,
   default: ({ country }) => (
     <div data-testid={`country-card-${country.cca3}`}>
@@ -46,7 +46,7 @@ jest.mock('../../components/countries/CountryCard', () => ({
   ),
 }));
 
-jest.mock('../../components/countries/CountryRow', () => ({
+jest.mock('../../../components/countries/CountryRow', () => ({
   __esModule: true,
   default: ({ country }) => (
     <div data-testid={`country-row-${country.cca3}`} className="country-row">
@@ -56,7 +56,7 @@ jest.mock('../../components/countries/CountryRow', () => ({
 }));
 
 // Mock auth
-jest.mock('../../services/authService', () => ({
+jest.mock('../../../services/authService', () => ({
   onAuthStateChanged: jest.fn(),
   loginUser: jest.fn(),
   signInWithEmailAndPassword: jest.fn(),
@@ -65,7 +65,7 @@ jest.mock('../../services/authService', () => ({
 }));
 
 // Mock API
-jest.mock('../../services/api', () => ({
+jest.mock('../../../services/api', () => ({
   fetchAllCountries: jest.fn(),
   fetchCountryByCode: jest.fn(),
   fetchCountryByName: jest.fn(),

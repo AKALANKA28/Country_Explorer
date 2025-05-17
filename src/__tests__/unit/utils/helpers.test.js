@@ -1,4 +1,4 @@
-import { formatNumber, debounce, formatDate } from '../../utils/helpers';
+import { formatNumber, debounce, formatDate } from '../../../utils/helpers';
 
 describe('Helper functions', () => {
   test('formatNumber adds commas to large numbers', () => {

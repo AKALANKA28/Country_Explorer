@@ -3,12 +3,11 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import {
   CountryContext,
   CountryProvider,
-} from "../../context/CountryContext";
-import { fetchAllCountries } from "../../services/api";
-import { AuthContext } from "../../context/AuthContext";
-
+} from "../../../context/CountryContext";
+import { fetchAllCountries } from "../../../services/api";
+import { AuthContext } from "../../../context/AuthContext";
 // Mock API - this is the critical part that needs to be fixed
-jest.mock("../../services/api", () => ({
+jest.mock("../../../services/api", () => ({
   fetchAllCountries: jest.fn(),
 }));
 

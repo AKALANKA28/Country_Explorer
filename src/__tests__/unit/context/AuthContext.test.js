@@ -1,10 +1,10 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { AuthContext, AuthProvider } from "../../../../context/AuthContext";
-import * as authService from "../../../../services/authService";
+import { AuthContext, AuthProvider } from "../../../context/AuthContext";
+// import * as authService from "../../../../services/authService";
 
 // Mock authentication services
-jest.mock("../../services/authService", () => ({
+jest.mock("../../../services/authService", () => ({
   loginUser: jest.fn(),
   registerUser: jest.fn(),
 }));
