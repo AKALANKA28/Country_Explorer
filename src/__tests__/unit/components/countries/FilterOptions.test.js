@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { CountryContext } from '../../../context/CountryContext';
-import FilterOptions from '../../../components/countries/FilterOptions';
+import { CountryContext } from '../../../../context/CountryContext';
+import FilterOptions from '../../../../components/countries/FilterOptions';
 
 // Mock context value
 const mockContextValue = {

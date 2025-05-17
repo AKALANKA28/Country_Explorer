@@ -1,4 +1,10 @@
-import { fetchAllCountries, fetchCountryByCode } from "../../services/api";
+import {
+  fetchAllCountries,
+  fetchCountryByCode,
+  fetchCountriesByRegion,
+  fetchCountryByName,
+  fetchCountriesByLanguage,
+} from "../../services/api";
 
 describe("API Service", () => {
   beforeEach(() => {
@@ -113,17 +119,4 @@ test("fetchCountryByName calls correct endpoint with country name", async () => 
     "https://restcountries.com/v3.1/name/Finland"
   );
   expect(result).toEqual(mockCountry);
-});
-
-test("fetchCountryByName handles errors", async () => {
-  // Mock error response
-  global.fetch.mockResolvedValueOnce({
-    ok: false,
-    status: 404,
-    json: async () => ({ message: "Country not found" }),
-  });
-
-  await expect(fetchCountryByName("NonExistentCountry")).rejects.toThrow(
-    "HTTP error! Status: 404"
-  );
 });

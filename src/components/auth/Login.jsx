@@ -1,22 +1,22 @@
-import React, { useState, useContext } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { loginUser } from '../../services/authService';
-import { AuthContext } from '../../context/AuthContext';
+import React, { useState, useContext } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { loginUser } from "../../services/authService";
+import { AuthContext } from "../../context/AuthContext";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    
+    setError("");
+
     if (!email.trim() || !password.trim()) {
-      setError('Email and password are required');
+      setError("Email and password are required");
       return;
     }
 
@@ -24,10 +24,10 @@ const Login = () => {
       setIsLoading(true);
       const userData = await loginUser(email, password);
       login(userData);
-      navigate('/');
+      navigate("/");
     } catch (err) {
-      setError(err.message || 'Failed to login. Please try again.');
-      console.error('Login error:', err);
+      setError(err.message || "Failed to login. Please try again.");
+      console.error("Login error:", err);
     } finally {
       setIsLoading(false);
     }
@@ -41,15 +41,21 @@ const Login = () => {
             Sign in to your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
-            <Link to="/register" className="font-medium text-teal-600 hover:text-teal-500">
+            Or{" "}
+            <Link
+              to="/register"
+              className="font-medium text-teal-600 hover:text-teal-500"
+            >
               create a new account
             </Link>
           </p>
         </div>
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <div
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+            role="alert"
+          >
             <span className="block sm:inline">{error}</span>
           </div>
         )}
@@ -75,7 +81,7 @@ const Login = () => {
             <div>
               <label htmlFor="password" className="sr-only">
                 Password
-              </label>
+              </label>{" "}
               <input
                 id="password"
                 name="password"
@@ -84,6 +90,7 @@ const Login = () => {
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
+                data-testid="login-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -95,16 +102,32 @@ const Login = () => {
               type="submit"
               disabled={isLoading}
               className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
-                isLoading ? 'bg-teal-400' : 'bg-teal-600 hover:bg-teal-700'
+                isLoading ? "bg-teal-400" : "bg-teal-600 hover:bg-teal-700"
               } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500`}
             >
               {isLoading ? (
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
               ) : (
-                'Sign in'
+                "Sign in"
               )}
             </button>
           </div>
@@ -112,7 +135,8 @@ const Login = () => {
 
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-600">
-            Note: This is a demo app. Any non-empty email and password will work.
+            Note: This is a demo app. Any non-empty email and password will
+            work.
           </p>
         </div>
       </div>

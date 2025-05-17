@@ -1,39 +1,46 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { AuthContext } from '../../../context/AuthContext';
-import { CountryContext } from '../../../context/CountryContext';
+import React from "react";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { AuthContext } from "../../../../context/AuthContext";
+import { CountryContext } from "../../../../context/CountryContext";
 
 // Instead of importing the actual component, create a mock version
 // that doesn't require react-router-dom
 const MockCountryCard = ({ country }) => {
   const { currentUser } = React.useContext(AuthContext);
   const { toggleFavorite, isFavorite } = React.useContext(CountryContext);
-  
+
   const handleFavoriteClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
     toggleFavorite(country.cca3);
   };
-  
+
   const favorite = isFavorite(country.cca3);
-  
+
   return (
     <div className="country-card">
       <a href={`/country/${country.cca3}`} data-testid="mock-link">
-        <img 
-          src={country.flags.svg} 
-          alt={`Flag of ${country.name.common}`} 
+        <img
+          src={country.flags.svg}
+          alt={`Flag of ${country.name.common}`}
           className="country-flag"
         />
         <div className="country-info">
           <h2>{country.name.common}</h2>
-          <p><strong>Capital:</strong> {country.capital?.join(", ")}</p>
-          <p><strong>Region:</strong> {country.region}</p>
-          <p><strong>Population:</strong> {new Intl.NumberFormat().format(country.population)}</p>
+          <p>
+            <strong>Capital:</strong> {country.capital?.join(", ")}
+          </p>
+          <p>
+            <strong>Region:</strong> {country.region}
+          </p>
+          <p>
+            <strong>Population:</strong>{" "}
+            {new Intl.NumberFormat().format(country.population)}
+          </p>
         </div>
       </a>
       {currentUser && (
-        <button 
+        <button
           onClick={handleFavoriteClick}
           aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
         >
@@ -58,30 +65,34 @@ const MockCountryCard = ({ country }) => {
 
 // Mock country data
 const mockCountry = {
-  flags: { svg: 'test-flag.svg', png: 'test-flag.png' },
-  name: { common: 'Test Country', official: 'Republic of Test' },
-  capital: ['Test City'],
+  flags: { svg: "test-flag.svg", png: "test-flag.png" },
+  name: { common: "Test Country", official: "Republic of Test" },
+  capital: ["Test City"],
   population: 1000000,
-  region: 'Test Region',
-  cca3: 'TST'
+  region: "Test Region",
+  cca3: "TST",
 };
 
 // Mock context values
 const mockAuthContext = {
-  currentUser: { uid: 'test-uid', email: 'test@test.com' }
+  currentUser: { uid: "test-uid", email: "test@test.com" },
 };
 
 const mockCountryContext = {
   toggleFavorite: jest.fn(),
-  isFavorite: jest.fn(() => false)
+  isFavorite: jest.fn(() => false),
 };
 
 const mockCountryContextWithFavorite = {
   toggleFavorite: jest.fn(),
-  isFavorite: jest.fn(() => true)
+  isFavorite: jest.fn(() => true),
 };
 
-const renderWithContext = (component, authContext = mockAuthContext, countryContext = mockCountryContext) => {
+const renderWithContext = (
+  component,
+  authContext = mockAuthContext,
+  countryContext = mockCountryContext
+) => {
   return render(
     <AuthContext.Provider value={authContext}>
       <CountryContext.Provider value={countryContext}>
@@ -91,63 +102,62 @@ const renderWithContext = (component, authContext = mockAuthContext, countryCont
   );
 };
 
-describe('CountryCard component', () => {
+describe("CountryCard component", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  
-  test('renders country information correctly', () => {
+
+  test("renders country information correctly", () => {
     renderWithContext(<MockCountryCard country={mockCountry} />);
-    
+
     // Check if country name, capital and region are displayed
-    expect(screen.getByText('Test Country')).toBeInTheDocument();
+    expect(screen.getByText("Test Country")).toBeInTheDocument();
     expect(screen.getByText(/Test City/)).toBeInTheDocument();
     expect(screen.getByText(/Test Region/)).toBeInTheDocument();
-    
+
     // Check if population is formatted correctly with comma
     expect(screen.getByText(/1,000,000/)).toBeInTheDocument();
-    
+
     // Check if flag is displayed
-    const flagImage = screen.getByAltText('Flag of Test Country');
+    const flagImage = screen.getByAltText("Flag of Test Country");
     expect(flagImage).toBeInTheDocument();
-    expect(flagImage).toHaveAttribute('src', 'test-flag.svg');
+    expect(flagImage).toHaveAttribute("src", "test-flag.svg");
   });
-  
-  test('renders favorite button when user is logged in', () => {
+
+  test("renders favorite button when user is logged in", () => {
     renderWithContext(<MockCountryCard country={mockCountry} />);
-    
+
     // Favorite button should be in the document when the user is logged in
-    const favoriteButton = screen.getByRole('button');
+    const favoriteButton = screen.getByRole("button");
     expect(favoriteButton).toBeInTheDocument();
   });
-  
-  test('does not render favorite button when user is not logged in', () => {
-    renderWithContext(
-      <MockCountryCard country={mockCountry} />, 
-      { currentUser: null }
-    );
-    
+
+  test("does not render favorite button when user is not logged in", () => {
+    renderWithContext(<MockCountryCard country={mockCountry} />, {
+      currentUser: null,
+    });
+
     // Favorite button should not be in the document when the user is not logged in
-    const favoriteButton = screen.queryByRole('button');
+    const favoriteButton = screen.queryByRole("button");
     expect(favoriteButton).not.toBeInTheDocument();
   });
-  
-  test('calls toggleFavorite when favorite button is clicked', () => {
+
+  test("calls toggleFavorite when favorite button is clicked", () => {
     renderWithContext(<MockCountryCard country={mockCountry} />);
-    
+
     // Click the favorite button
-    const favoriteButton = screen.getByRole('button');
+    const favoriteButton = screen.getByRole("button");
     fireEvent.click(favoriteButton);
-    
+
     // Check if toggleFavorite was called with the correct country code
-    expect(mockCountryContext.toggleFavorite).toHaveBeenCalledWith('TST');
+    expect(mockCountryContext.toggleFavorite).toHaveBeenCalledWith("TST");
   });
-  
-  test('links to country detail page', () => {
+
+  test("links to country detail page", () => {
     renderWithContext(<MockCountryCard country={mockCountry} />);
-    
+
     // Find the Link component and check if it points to the correct URL
-    const link = screen.getByTestId('mock-link');
-    expect(link).toHaveAttribute('href', '/country/TST');
+    const link = screen.getByTestId("mock-link");
+    expect(link).toHaveAttribute("href", "/country/TST");
   });
 });

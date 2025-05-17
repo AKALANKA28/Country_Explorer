@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import Login from '../../../components/auth/Login';
-import { AuthContext } from '../../../context/AuthContext';
-import * as authService from '../../../services/authService';
+import Login from '../../../../components/auth/Login';
+import { AuthContext } from '../../../../context/AuthContext';
+import * as authService from '../../../../services/authService';
 
 
 const originalConsoleWarn = console.warn;
@@ -23,7 +23,7 @@ afterAll(() => {
 
 
 // Mock the auth service
-jest.mock('../../../services/authService', () => ({
+jest.mock('../../../../services/authService', () => ({
   loginUser: jest.fn()
 }));
 

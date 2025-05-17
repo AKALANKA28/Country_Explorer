@@ -1,12 +1,15 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { CountryContext, CountryProvider } from "../../context/CountryContext";
+import {
+  CountryContext,
+  CountryProvider,
+} from "../../context/CountryContext";
 import { fetchAllCountries } from "../../services/api";
 import { AuthContext } from "../../context/AuthContext";
 
 // Mock API - this is the critical part that needs to be fixed
 jest.mock("../../services/api", () => ({
-  fetchAllCountries: jest.fn()
+  fetchAllCountries: jest.fn(),
 }));
 
 // Mock country data
@@ -89,7 +92,7 @@ describe("CountryContext", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     window.localStorage.clear(); // Use window.localStorage provided by setupTests.js
-    
+
     // Setup the mock implementation for fetchAllCountries
     fetchAllCountries.mockImplementation(() => Promise.resolve(mockCountries));
   });
@@ -132,7 +135,7 @@ describe("CountryContext", () => {
 
   test("handles API errors", async () => {
     // Mock API error
-    fetchAllCountries.mockImplementationOnce(() => 
+    fetchAllCountries.mockImplementationOnce(() =>
       Promise.reject(new Error("Failed to fetch countries"))
     );
 
