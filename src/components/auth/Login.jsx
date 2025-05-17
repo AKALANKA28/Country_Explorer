@@ -134,10 +134,7 @@ const Login = () => {
         </form>
 
         <div className="mt-4 text-center">
-          <p className="text-sm text-gray-600">
-            Note: This is a demo app. Any non-empty email and password will
-            work.
-          </p>
+
         </div>
       </div>
     </div>

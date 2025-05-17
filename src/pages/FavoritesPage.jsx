@@ -166,19 +166,24 @@ const FavoritesPage = () => {
           {/* Proper table structure with header and body */}
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
-              <tr className="py-4 px-6 font-medium text-gray-600">
-                <th className="w-12 p-2"></th> {/* Flag column */}
-                <th className="flex-1 min-w-[120px] p-2 text-left">Country</th>
-                <th className="flex-1 min-w-[120px] hidden sm:table-cell p-2 text-left">
+              {/* Apply font-medium and text-gray-600 to th, ensure text-left if needed */}
+              <tr>
+                <th className="w-12 p-2 font-medium text-gray-600 text-left"></th>{" "}
+                {/* Flag column */}
+                <th className="flex-1 min-w-[120px] p-2 font-medium text-gray-600 text-left">
+                  Country
+                </th>
+                <th className="flex-1 min-w-[120px] hidden sm:table-cell p-2 font-medium text-gray-600 text-left">
                   Capital
                 </th>
-                <th className="flex-1 min-w-[100px] hidden md:table-cell p-2 text-left">
+                <th className="flex-1 min-w-[100px] hidden md:table-cell p-2 font-medium text-gray-600 text-left">
                   Region
                 </th>
-                <th className="flex-1 min-w-[120px] hidden lg:table-cell p-2 text-left">
+                <th className="flex-1 min-w-[120px] hidden lg:table-cell p-2 font-medium text-gray-600 text-left">
                   Population
                 </th>
-                <th className="w-12 p-2"></th> {/* Favorites column */}
+                <th className="w-12 p-2 font-medium text-gray-600 text-left"></th>{" "}
+                {/* Favorites column */}
               </tr>
             </thead>
             <tbody>

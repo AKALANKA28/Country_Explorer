@@ -40,8 +40,9 @@ export const CountryProvider = ({ children }) => {
   // Load favorites from localStorage
   useEffect(() => {
     if (currentUser) {
-      // Use user-specific key for favorites
-      const favoriteKey = `favorites_${currentUser.uid}`;
+      // Use user-specific key for favorites, checking both id and uid for compatibility
+      const userId = currentUser.id || currentUser.uid;
+      const favoriteKey = `favorites_${userId}`;
       const storedFavorites = localStorage.getItem(favoriteKey);
       if (storedFavorites) {
         setFavorites(JSON.parse(storedFavorites));
@@ -92,7 +93,8 @@ export const CountryProvider = ({ children }) => {
 
     setFavorites(newFavorites);
     // Use user-specific key for storing favorites
-    const favoriteKey = `favorites_${currentUser.uid}`;
+    const userId = currentUser.id || currentUser.uid;
+    const favoriteKey = `favorites_${userId}`;
     localStorage.setItem(favoriteKey, JSON.stringify(newFavorites));
   };
 
