@@ -21,7 +21,7 @@ import {
 // Color scheme
 const COLORS = {
   primary: "#006A71", // Teal
-  favorite: "#805AD5", // Purple
+  favorite: "#fff", 
   accent: "#4A5568", // Dark gray
   secondary: "#6A9C89", // Orange
   tertiary: "#48A6A7", // Blue
